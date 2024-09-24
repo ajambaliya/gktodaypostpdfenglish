@@ -202,7 +202,7 @@ async def send_pdf_to_telegram(pdf_path, bot_token, channel_id, caption):
 async def main():
     try:
         base_url = "https://www.gktoday.in/current-affairs/"
-        article_urls = fetch_article_urls(base_url, 2)
+        article_urls = fetch_article_urls(base_url, 3)
         new_urls = check_and_insert_urls(article_urls)
         if not new_urls:
             logger.info("No new URLs found to process")
