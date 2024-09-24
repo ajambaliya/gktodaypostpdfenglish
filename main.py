@@ -128,13 +128,18 @@ def insert_content_between_placeholders(doc, content_list):
             elif content['type'] == 'heading_4':
                 doc.paragraphs[start_placeholder]._element.addnext(doc.add_heading(content['text'], level=4)._element)
             elif content['type'] == 'list_item':
-                doc.paragraphs[start_placeholder]._element.addnext(doc.add_paragraph(content['text'], style='List Bullet')._element)
+                try:
+                    doc.paragraphs[start_placeholder]._element.addnext(doc.add_paragraph(content['text'], style='List Bullet')._element)
+                except KeyError:
+                    logger.warning("Style 'List Bullet' not found, falling back to 'Normal' style for list items")
+                    doc.paragraphs[start_placeholder]._element.addnext(doc.add_paragraph(content['text'], style='Normal')._element)
 
         doc.paragraphs[start_placeholder].text = ""
         doc.paragraphs[end_placeholder].text = ""
     except Exception as e:
         logger.exception(f"Error while inserting content: {e}")
         raise
+
 
 def download_template(url):
     logger.info(f"Downloading template from {url}")
